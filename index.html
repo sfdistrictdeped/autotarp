@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#eef4ff">
 <meta name="description" content="AutoTarp — Automated Tarpapel Maker. Printing Art Simplified.">
-<title>AutoTarp — Automated Tarpapel Maker · v1.2</title>
+<title>AutoTarp — Automated Tarpapel Maker · v1.4</title>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="assets/icon-192.png" type="image/png">
 <style>
@@ -66,12 +66,127 @@ body{background:#eef3ff}
 .theme-toggle{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid #d8d3ef;background:#f3f0ff;color:#4338ca;border-radius:999px;padding:9px 12px;font-size:.82rem;font-weight:800;line-height:1.2;white-space:nowrap;box-shadow:0 2px 6px #312e8110}
 .theme-toggle:hover{filter:brightness(.97)}.home-card>.theme-toggle{position:absolute;top:14px;right:14px;z-index:1}
 .workspace-theme-toggle{margin-left:auto}
-.release-entry{padding:10px 0;border-bottom:1px solid #e8e5f4}.release-entry:last-of-type{border-bottom:0}.release-entry p{margin:5px 0}.changelog-note{font-size:.82rem;color:#827b98}
+.release-entry{padding:10px 0;border-bottom:1px solid #e8e5f4}.update-type{font-weight:800}.type-initial{color:#dc2626}.type-minor{color:#16a34a}.type-major{color:#2563eb}.release-entry:last-of-type{border-bottom:0}.release-entry p{margin:5px 0}.release-entry .release-bullets{margin:8px 0 4px;padding-left:1.35em;display:grid;gap:6px}.release-entry .release-bullets li{padding-left:2px;line-height:1.45}.release-entry .release-bullets li::marker{color:#6655ed}.changelog-note{font-size:.82rem;color:#827b98}
 .theme-dark .card{background:#222438;border-color:#41435c}.theme-dark .description,.theme-dark .footer{color:#b8b8cf}.theme-dark .theme-toggle{background:#34364e;color:#f3f4ff;border-color:#555875}.theme-dark .changelog{background:#26324c;color:#bfdbfe}.theme-dark .about{background:#1e3a34;color:#a7f3d0}.theme-dark .release-entry{border-color:#41435c}.theme-dark .changelog-note{color:#b8b8cf}
 @media(max-width:600px){.home-card>.theme-toggle{top:10px;right:10px;padding:8px 10px;font-size:.76rem}.workspace-theme-toggle{padding:8px 9px;font-size:.75rem}.workspace-head .workspace-title{min-width:100px}}
 
 
 .update-banner{position:fixed;z-index:20;left:12px;right:12px;bottom:12px;margin:auto;width:min(100% - 24px,560px);display:none;align-items:center;gap:12px;padding:14px 16px;background:#252447;color:#fff;border:1px solid #7773b7;border-radius:16px;box-shadow:0 12px 36px #0005;text-align:left}.update-banner.show{display:flex}.update-banner-text{flex:1;font-size:.9rem;line-height:1.4}.update-banner-text strong{display:block;margin-bottom:2px}.update-banner button{border:0;border-radius:10px;padding:10px 12px;font-weight:800;background:#a5f3fc;color:#164e63;white-space:nowrap}.update-dismiss{background:transparent!important;color:#fff!important;padding:4px 7px!important;font-size:1.1rem}
+
+
+/* AutoTarp v1.4 — UI Workflow Update */
+html,body{width:100%;min-height:100%;margin:0}
+body{padding:0!important;background:#eef2ff!important}
+.page{width:100%!important;max-width:none!important;margin:0!important}
+#workspaceScreen.workspace{width:100vw;min-height:100vh;height:100vh;border-radius:0;box-shadow:none;display:flex;flex-direction:column}
+#workspaceScreen.hidden{display:none!important}
+.workspace-head{flex:0 0 auto;padding:10px 18px;gap:12px;min-height:66px;position:relative;z-index:4}
+.workspace-body{flex:1;min-height:0;grid-template-columns:minmax(280px,340px) minmax(0,1fr);overflow:hidden}
+.settings{overflow:auto;min-height:0;padding:14px}
+.preview-area{min-height:0;overflow:auto;padding:16px 20px;display:flex;flex-direction:column}
+.preview-top{flex:0 0 auto}
+#posterView,#tilesView{flex:1;min-height:0}
+.poster-wrap{height:calc(100vh - 350px);min-height:340px;max-height:none}
+.poster{max-height:calc(100vh - 340px);max-width:100%;width:auto}
+#posterView .poster-wrap{height:calc(100vh - 350px);margin-bottom:24px}
+#tilesView{overflow:auto}
+.preview-top{align-items:center}
+.preview-meta-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.total-chip{display:inline-flex;align-items:center;gap:5px;padding:7px 11px;border-radius:999px;background:#e9e7ff;color:#4338ca;font-size:.82rem;font-weight:800;white-space:nowrap}
+.workspace-head .workspace-title{min-width:120px}
+.top-tools{display:flex;align-items:center;gap:5px;margin-left:8px}
+.icon-tool{width:38px;height:38px;display:grid;place-items:center;border:1px solid #ddd8f4;border-radius:10px;background:#fff;color:#3730a3;font-size:1.25rem;font-weight:800}
+.icon-tool:disabled{opacity:.4;cursor:not-allowed}
+.proceed-wrap{position:relative;margin-left:auto}
+.proceed-btn{border:0;border-radius:12px;padding:12px 16px;background:#4f46e5;color:#fff;font-weight:850;white-space:nowrap;box-shadow:0 3px 0 #312e81}
+.floating-menu{position:absolute;right:0;top:calc(100% + 8px);z-index:20;width:245px;padding:10px;background:#fff;border:1px solid #ded9f5;border-radius:15px;box-shadow:0 14px 40px #28205b30;display:none}
+.floating-menu.open{display:grid;gap:8px}
+.floating-menu button{width:100%;text-align:left;border:0;border-radius:10px;padding:12px;background:#f4f2ff;color:#30285d;font-weight:750}
+.workflow-steps{display:grid;gap:8px}
+.workflow-steps details{border:1px solid #e4e0f4;border-radius:14px;background:#fff;overflow:clip}
+.workflow-steps details[open]{box-shadow:0 3px 12px #28205b0a}
+.workflow-steps summary{cursor:pointer;list-style:none;padding:13px 12px;font-weight:850;display:flex;align-items:center;gap:9px}
+.workflow-steps summary::-webkit-details-marker{display:none}
+.workflow-steps summary:after{content:'⌄';margin-left:auto;color:#746c9a;font-size:1.1rem}
+.workflow-steps details[open] summary:after{content:'⌃'}
+.step-number{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;background:#ece9ff;color:#4f46e5;font-size:.8rem}
+.step-content{padding:0 12px 13px}
+.workflow-steps .section-label{display:none}
+.workflow-steps .field{margin-bottom:12px}
+.workflow-steps .image-picker-card{padding:13px 10px}
+.workflow-steps .qol-panel{margin-top:0}
+.smart-summary{margin-top:14px}
+.poster-summary-wrap{position:relative;inset:auto;flex:0 0 auto;clear:both;margin-top:32px;padding-top:4px;display:grid;grid-template-columns:minmax(0,1fr);gap:8px;width:100%;box-sizing:border-box}
+.poster-summary-wrap .smart-summary,.poster-summary-wrap .quality-warning{margin:0}.poster-summary-wrap{align-self:stretch}
+.export-panel{display:none!important}
+.instructions-panel{display:none!important}
+#shortcutsBtn{display:none!important}
+#shortcutsModal{z-index:40}
+@media(min-width:1100px){
+  .preview-area{padding:18px 24px}
+  .poster-wrap{height:calc(100vh - 340px)}
+  #posterView .poster-wrap{height:calc(100vh - 340px)}
+}
+@media(max-width:800px){
+  #workspaceScreen.workspace{height:auto;min-height:100vh}
+  .workspace-head{flex-wrap:wrap;padding:10px}
+  .workspace-head .mini-logo{width:75px}
+  .workspace-title h2{font-size:1rem}
+  .top-tools{margin-left:0}
+  .proceed-wrap{margin-left:auto}
+  .workspace-body{grid-template-columns:1fr;overflow:visible}
+  .settings{overflow:visible;border-right:0;border-bottom:1px solid var(--line)}
+  .preview-area{overflow:visible;padding:12px}
+  .poster-wrap,#posterView .poster-wrap{height:auto;min-height:330px;max-height:none}
+  .poster{max-height:60vh}
+  .preview-top{align-items:flex-start}
+}
+@media(max-width:480px){
+  .back-btn{padding:8px;font-size:.8rem}
+  .workspace-head .mini-logo{width:60px}
+  .workspace-title p{display:none}
+  .top-tools{gap:3px}
+  .icon-tool{width:33px;height:33px}
+  .proceed-btn{padding:10px;font-size:.8rem}
+}
+.theme-dark .workflow-steps details,.theme-dark .floating-menu{background:#222438;color:var(--ink);border-color:#41435c}
+.theme-dark .workflow-steps summary{color:var(--ink)}
+.theme-dark .floating-menu button{background:#34364e;color:#eee}
+
+
+/* v1.4 refinement: compact summary and clarity warning popovers */
+.top-tools{position:relative}
+.summary-popover-anchor{position:relative}
+.summary-popover,.clarity-popover{position:absolute;top:calc(100% + 10px);left:0;z-index:50;width:min(360px,calc(100vw - 32px));padding:16px;background:var(--panel,#fff);border:1px solid var(--line,#ded9f5);border-radius:14px;box-shadow:0 16px 42px #21194a30;display:none;color:var(--ink,#28244f);text-align:left}
+.summary-popover.open,.clarity-popover.open{display:block}
+.summary-popover h3,.clarity-popover h3{margin:0 0 8px;font-size:1rem}
+.summary-popover p,.clarity-popover p{margin:6px 0;line-height:1.45}
+.clarity-btn{width:38px;height:38px;border:1px solid #ffd08a;border-radius:10px;background:#fff7e8;color:#b54708;font-size:1.1rem;display:none;place-items:center}
+.clarity-btn.visible{display:grid}
+.popover-close{float:right;border:0;background:transparent;color:inherit;font-size:1.1rem;cursor:pointer}
+.theme-dark .summary-popover,.theme-dark .clarity-popover{background:#222438;color:#f3f1ff;border-color:#41435c}
+
+
+/* v1.4 cleanup: summary and clarity warning are available only from toolbar popovers */
+#posterSummaryWrap,.poster-summary-wrap,#smartSummary,#qualityWarning{display:none!important;visibility:hidden!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important}
+
+
+/* v1.4 refinement: lock the selected image until the user removes it */
+.selected-image-card{border:1px solid #d9d4f5;border-radius:16px;background:#f8f7ff;padding:12px;display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:12px;cursor:default}
+.selected-image-card[hidden]{display:none!important}
+.selected-image-card img{display:block;max-width:100%;width:auto;max-height:270px;object-fit:contain;border-radius:10px;background:#fff;box-shadow:0 4px 18px #24204a14;pointer-events:none;user-select:none}
+.selected-image-caption{display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;color:var(--ink,#28244f);overflow-wrap:anywhere}
+.selected-image-caption span{font-size:.82rem;opacity:.75}
+.image-picker-card.is-hidden,.upload-zone.is-hidden{display:none!important}
+.theme-dark .selected-image-card{background:#292b43;border-color:#494b68}
+.theme-dark .selected-image-card img{background:#202235}
+
+
+/* v1.4 preview geometry correction */
+#poster{box-sizing:border-box;flex:none;max-width:100%;max-height:calc(100vh - 340px)}
+#posterImage{width:100%;height:100%;display:block}
+.tile-thumb{box-sizing:border-box;flex:none;min-width:0}
+.tile-thumb img{max-width:none;max-height:none;object-fit:fill}
 
 </style>
 </head>
@@ -94,7 +209,7 @@ body{background:#eef3ff}
       <a class="feedback-button" href="mailto:sfdistrict.deped@gmail.com?subject=AutoTarp%20Suggestion%20or%20Bug%20Report">✉️ Report a Bug / Send a Suggestion</a>
       <p class="feedback-note">For suggestions &amp; bug reports, please email us at <a href="mailto:sfdistrict.deped@gmail.com">sfdistrict.deped@gmail.com</a>.</p>
     </div>
-    <footer class="footer"><div class="version">AutoTarp · Version 1.2</div></footer>
+    <footer class="footer"><div class="version">AutoTarp · Version 1.4</div></footer>
   </section>
 
   <section id="workspaceScreen" class="workspace hidden">
@@ -102,11 +217,39 @@ body{background:#eef3ff}
       <button class="back-btn" id="backHome" type="button">← Home</button>
       <img class="mini-logo" src="assets/autotarp-logo.png" alt="AutoTarp">
       <div class="workspace-title"><h2>Poster Layout</h2><p>Set up your paper grid</p></div>
-      <button type="button" class="theme-toggle workspace-theme-toggle" data-theme-toggle aria-label="Switch color theme">🌙 Dark mode</button>
+      <div class="top-tools" aria-label="Quick tools">
+      <button type="button" class="icon-tool" id="topUndoBtn" title="Undo (Ctrl+Z)" aria-label="Undo">↶</button>
+      <button type="button" class="icon-tool" id="topRedoBtn" title="Redo (Ctrl+Y)" aria-label="Redo">↷</button>
+      <button type="button" class="icon-tool" id="topHelpBtn" title="Printing instructions and keyboard shortcuts" aria-label="Help">?</button>
+<div class="summary-popover-anchor"><button type="button" class="icon-tool" id="summaryPopoverBtn" title="Poster summary" aria-label="Poster summary">▤</button>
+      <div class="summary-popover" id="summaryPopover" role="dialog" aria-label="Poster summary"><button class="popover-close" type="button" data-close-popover="summaryPopover" aria-label="Close">×</button><h3>Poster summary</h3><div id="summaryPopoverContent"><p>Summary will appear here.</p></div></div></div>
+      <div class="summary-popover-anchor"><button type="button" class="clarity-btn" id="clarityWarningBtn" title="Image quality warning" aria-label="Image quality warning">⚠️</button>
+      <div class="clarity-popover" id="clarityPopover" role="dialog" aria-label="Image quality warning"><button class="popover-close" type="button" data-close-popover="clarityPopover" aria-label="Close">×</button><h3>Image quality warning</h3><div id="clarityPopoverContent"></div></div></div>
+    </div>
+    <div class="proceed-wrap"><button type="button" class="proceed-btn" id="proceedPrintBtn">Proceed to Print ▾</button>
+      <div class="floating-menu" id="printMenu" role="menu">
+        <button type="button" id="menuExportPdf">↓ Export Tiled PDF</button>
+        <button type="button" id="menuPrintBrowser">▣ Print Directly from App</button>
+      </div>
+    </div>
+    <button type="button" class="theme-toggle workspace-theme-toggle" data-theme-toggle aria-label="Switch color theme">🌙 Dark mode</button>
     </header>
     <div class="workspace-body">
       <aside class="settings">
-        <p class="section-label">01 · Paper setup</p>
+        <div class="workflow-steps">
+          <details open><summary><span class="step-number">1</span> Choose photo</summary><div class="step-content">
+        <input id="imageInput" type="file" accept="image/*" style="display:none">
+        <div id="selectedImageCard" class="selected-image-card" hidden>
+          <img id="selectedImageThumb" alt="Selected poster image preview">
+          <div class="selected-image-caption"><strong>Selected image</strong><span id="selectedImageName"></span></div>
+        </div>
+        <div class="image-picker-card"><div class="picker-icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg></div><strong>Choose an image for your poster</strong><span>Browse your computer or drag an image into the area below.</span><button type="button" class="browse-btn" id="browseImage">▣ &nbsp; Browse for Image</button><small>JPG · PNG · WEBP and other supported image formats</small></div>
+        <div class="upload-zone" id="uploadZone" tabindex="0" role="button" aria-label="Drop an image here or press Enter to browse"><strong>Or drag and drop an image here</strong><span>Click this area to browse, too.</span></div>
+        <div class="field fit-field"><label for="imageFit">Image fit</label><select id="imageFit"><option value="contain" selected>Contain — show the entire image</option><option value="cover">Cover — fill the poster area (may crop)</option></select><small>Contain is recommended for text, logos, and school seals.</small></div>
+        <div class="action-row"><button class="action-btn reset-btn" id="clearImage" type="button">Remove image</button><button class="action-btn apply-btn" id="updatePreview" type="button">Update preview</button></div>
+        <div id="status" class="status" role="status"></div>
+      </div></details>
+          <details open><summary><span class="step-number">2</span> Paper & Poster Settings</summary><div class="step-content">
         <div class="field"><label for="paperSize">Paper size</label>
           <select id="paperSize">
             <option value="297,420">A3 (297 × 420 mm)</option><option value="210,297" selected>A4 (210 × 297 mm)</option><option value="148,210">A5 (148 × 210 mm)</option><option value="176,250">B5 (176 × 250 mm)</option><option value="215.9,279.4">Letter (8.5 × 11 in)</option><option value="215.9,355.6">Legal (8.5 × 14 in)</option><option value="215.9,330.2">Folio / Long (8.5 × 13 in)</option><option value="184.15,266.7">Executive (7.25 × 10.5 in)</option><option value="279.4,431.8">Tabloid / Ledger (11 × 17 in)</option>
@@ -119,22 +262,18 @@ body{background:#eef3ff}
           <small>Switching units converts the values automatically. Maximum: 5,000 mm or 196.85 in per side.</small><p id="customSizeError" class="hidden" style="color:#be123c;font-weight:700;margin:8px 0 0">Enter valid positive dimensions.</p>
         </div>
         <div class="field"><label>Orientation</label><div class="segmented"><button type="button" class="active" data-orientation="portrait">▯ Portrait</button><button type="button" data-orientation="landscape">▱ Landscape</button></div></div>
-        <p class="section-label">02 · Poster dimensions</p>
+
         <div class="grid-fields">
           <div class="field"><label for="rows">Vertical sheets</label><input id="rows" type="number" min="1" max="12" value="3"><small>Rows, top to bottom</small></div>
           <div class="field"><label for="cols">Horizontal sheets</label><input id="cols" type="number" min="1" max="12" value="4"><small>Columns, left to right</small></div>
         </div>
         <div class="field"><label>Total sheets</label><div id="totalSheets" style="font-weight:850;font-size:1.25rem;color:#4f46e5">12 sheets</div><small>For example, 3 × 4 means 3 rows and 4 columns.</small></div>
-        <p class="section-label">03 · Poster image</p>
-        <input id="imageInput" type="file" accept="image/*" style="display:none">
-        <div class="image-picker-card"><div class="picker-icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg></div><strong>Choose an image for your poster</strong><span>Browse your computer or drag an image into the area below.</span><button type="button" class="browse-btn" id="browseImage">▣ &nbsp; Browse for Image</button><small>JPG · PNG · WEBP and other supported image formats</small></div>
-        <div class="upload-zone" id="uploadZone" tabindex="0" role="button" aria-label="Drop an image here or press Enter to browse"><strong>Or drag and drop an image here</strong><span>Click this area to browse, too.</span></div>
-        <div class="field fit-field"><label for="imageFit">Image fit</label><select id="imageFit"><option value="contain" selected>Contain — show the entire image</option><option value="cover">Cover — fill the poster area (may crop)</option></select><small>Contain is recommended for text, logos, and school seals.</small></div>
-        <div class="action-row"><button class="action-btn reset-btn" id="clearImage" type="button">Remove image</button><button class="action-btn apply-btn" id="updatePreview" type="button">Update preview</button></div>
-        <div id="status" class="status" role="status"></div>
+</div></details>
+          <details><summary><span class="step-number">4</span> Smart tools</summary><div class="step-content" id="smartToolsMount"><p class="preview-note">Loading smart tools…</p></div></details>
+        </div>
       </aside>
       <section class="preview-area">
-        <div class="preview-top"><div><h3>Preview</h3><span id="previewMeta">A4 · Portrait · 3 × 4 sheets</span></div><div class="tab-row"><button class="active" data-tab="poster" type="button">Full poster</button><button data-tab="tiles" type="button">Individual sheets</button></div></div>
+        <div class="preview-top"><div><h3>Preview</h3><div class="preview-meta-row"><span id="previewMeta">A4 · Portrait · 3 × 4 sheets</span><span class="total-chip">Total: <b id="previewTotalSheets">12</b> sheets</span></div></div><div class="tab-row"><button class="active" data-tab="poster" type="button">Full poster</button><button data-tab="tiles" type="button">Individual sheets</button></div></div>
         <div id="emptyState" class="empty-state"><div class="big">🖼️</div><h3>Your poster goes here</h3><p>Choose an image to preview how it will be divided across your selected sheets.</p></div>
         <div id="posterView" class="hidden">
           <div class="poster-wrap"><div class="poster" id="poster"><img id="posterImage" alt="Full poster preview"><div class="grid-overlay" id="gridOverlay"></div></div></div>
@@ -144,8 +283,8 @@ body{background:#eef3ff}
         <div class="export-panel">
           <p class="section-label">04 · Print & export</p>
           <div class="grid-fields">
-            <div class="field"><label for="printMargin">Printer margin (mm)</label><input id="printMargin" type="number" min="0" max="25" step="0.5" value="5"><small>Reserved blank edge on each sheet</small></div>
-            <div class="field"><label for="tileOverlap">Tile overlap (mm)</label><input id="tileOverlap" type="number" min="0" max="20" step="0.5" value="5"><small>Extra image edge for joining sheets</small></div>
+            <div class="field"><label for="printMargin">Printer margin (mm)</label><input id="printMargin" type="number" min="0" max="40" step="0.5" value="25.4"><small>White gluing border on each sheet. Default 25.4 mm (1 inch); adjust as needed.</small></div>
+            <div class="field"><label for="tileOverlap">Tile overlap per adjoining edge (mm)</label><input id="tileOverlap" type="number" min="0" max="50" step="0.5" value="25.4"><small>Default 25.4 mm (1 inch) per edge; adjust for gluing</small></div>
           </div>
           <div class="grid-fields">
             <div class="field"><label for="printScale">Print scale (%)</label><input id="printScale" type="number" min="50" max="100" step="1" value="100"><small>100% preserves page sizing</small></div>
@@ -209,16 +348,18 @@ body{background:#eef3ff}
 <div id="browserPrintRoot" class="hidden" aria-hidden="true"></div>
 
 <div class="modal-backdrop" id="changelogModal" role="dialog" aria-modal="true" aria-labelledby="changelogTitle"><section class="modal"><button class="modal-close" data-close aria-label="Close changelog">×</button><h2 id="changelogTitle">AutoTarp Changelog</h2>
-<div class="release-entry"><p><strong>Version 1.2 — Preview and offline improvements</strong></p><p>Fixes Individual Sheets preview proportions so they follow the selected paper orientation and dimensions. Improves sheet-label readability in dark mode. Updates the service-worker cache version to help the app refresh its cached files for offline use.</p></div>
-<div class="release-entry"><p><strong>Version 1.1.0 — Interface and custom-size fixes</strong></p><p>Improves dark-mode readability for Portrait/Landscape orientation controls and the custom paper-size panel. Fixes the Millimeters/Inches selector for custom paper dimensions. Moves the theme switch to the upper-right corner on the home and layout pages. Clarifies beta labels for versions 0.1.0 through 0.7.0.</p></div>
-<div class="release-entry"><p><strong>Version 1.0.0 — Stable public web-app release</strong></p><p>Introduces the GitHub Pages-ready web app and a consolidated set of smart poster tools: poster summary, local presets, assembly guide, image-quality warning, PDF page selection, test printing, fit-to-page, undo/redo, custom print margins, dark mode, keyboard shortcuts, and clearer error messages. Preserves core tiling, PDF export, calibration, paper presets, custom sizes, and existing credits.</p></div>
-<div class="release-entry"><p><strong>Beta 0.7.0 — Browser-printing reliability</strong></p><p>Improves browser printing with a dedicated print layout, page sizing based on the selected paper and orientation, image-readiness checks, and one poster tile per printed page. Restores the About and credit information.</p></div>
-<div class="release-entry"><p><strong>Beta 0.6.0 — Expanded poster controls</strong></p><p>Builds on the earlier prototype with additional print and layout controls, including refinements to scaling, overlap, margins, and crop-mark handling.</p></div>
-<div class="release-entry"><p><strong>Beta 0.5.0 — PDF and calibration improvements</strong></p><p>Refines tiled PDF output and adds or improves print calibration support to help users check scale before printing a complete poster.</p></div>
-<div class="release-entry"><p><strong>Beta 0.4.0 — Preview and layout refinement</strong></p><p>Improves the poster preview and tile layout workflow, making it easier to see how artwork is divided across sheets before export.</p></div>
-<div class="release-entry"><p><strong>Beta 0.3.0 — Paper and grid options</strong></p><p>Expands paper-size and orientation handling and refines row-and-column controls for multi-page poster layouts.</p></div>
-<div class="release-entry"><p><strong>Beta 0.2.0 — Image tiling prototype</strong></p><p>Develops the initial image-to-poster workflow with configurable tile grids and early print/export functionality.</p></div>
-<div class="release-entry"><p><strong>Beta 0.1.0 — Initial prototype</strong></p><p>First working concept of AutoTarp: upload an image and split it across ordinary paper sheets to create a larger assembled poster.</p></div>
+<div class="release-entry"><p><strong>Version 1.4 — <span class="update-type type-major">Major Update</span></strong></p><ul class="release-bullets"><li>Improves the UI workflow with a full-screen workspace, expandable workflow sections, a top toolbar for Undo/Redo and help, a Proceed to Print menu, and a larger preview area.</li><li>Adds floating Poster Summary and image-clarity warning controls, removing redundant summary and warning boxes below the preview.</li><li>Keeps the selected image visible as a static thumbnail until Remove Image is clicked; removing it restores image selection and drag-and-drop.</li><li>Hides the clarity-warning button when no image is loaded and refines image-quality detection to reduce false alarms on high-resolution images.</li><li>Fixes portrait paper proportions in the full-poster preview and aligns individual-sheet preview with PDF/browser print geometry.</li><li>Corrects tiled print output so white overlap areas are available for gluing.</li><li>Sets the default overlap to 25.4 mm (1 inch) per adjoining edge and allows users to adjust it in print settings.</li><li>Includes print/PDF geometry bug fixes and quality-of-life improvements.</li></ul></div>
+<div class="release-entry"><p><strong>Version 1.3 — <span class="update-type type-major">Major Update</span></strong></p><ul class="release-bullets"><li>Moves AutoTarp into its own GitHub repository as a standalone app, separate from SFD OneDirectory.</li></ul></div>
+<div class="release-entry"><p><strong>Version 1.2 — <span class="update-type type-minor">Minor Update</span></strong></p><ul class="release-bullets"><li>Fixes Individual Sheets preview proportions to follow the selected paper orientation and dimensions.</li><li>Improves sheet-label readability in dark mode.</li><li>Updates the service-worker cache version to help the app refresh cached files for offline use.</li></ul></div>
+<div class="release-entry"><p><strong>Version 1.1 — <span class="update-type type-minor">Minor Update</span></strong></p><ul class="release-bullets"><li>Improves dark-mode readability for Portrait/Landscape orientation controls and the custom paper-size panel.</li><li>Fixes the Millimeters/Inches selector for custom paper dimensions.</li><li>Moves the theme switch to the upper-right corner on the home and layout pages.</li><li>Clarifies beta labels for versions 0.1.0 through 0.7.0.</li></ul></div>
+<div class="release-entry"><p><strong>Version 1.0 — <span class="update-type type-major">Major Update</span></strong></p><ul class="release-bullets"><li>Introduces the stable GitHub Pages-ready web app.</li><li>Adds smart poster tools: poster summary, local presets, assembly guide, image-quality warning, PDF page selection, test printing, fit-to-page, undo/redo, custom print margins, dark mode, keyboard shortcuts, and clearer error messages.</li><li>Preserves core tiling, PDF export, calibration, paper presets, custom sizes, and existing credits.</li></ul></div>
+<div class="release-entry"><p><strong>Beta 0.7.0 — <span class="update-type type-major">Major Update</span></strong></p><ul class="release-bullets"><li>Improves browser printing with a dedicated print layout and page sizing based on selected paper and orientation.</li><li>Adds image-readiness checks and ensures one poster tile per printed page.</li><li>Restores the About and credit information.</li></ul></div>
+<div class="release-entry"><p><strong>Beta 0.6.0 — <span class="update-type type-minor">Minor Update</span></strong></p><ul class="release-bullets"><li>Builds on the earlier prototype with additional print and layout controls.</li><li>Refines scaling, overlap, margins, and crop-mark handling.</li></ul></div>
+<div class="release-entry"><p><strong>Beta 0.5.0 — <span class="update-type type-major">Major Update</span></strong></p><ul class="release-bullets"><li>Refines tiled PDF output.</li><li>Adds or improves print calibration support so users can check scale before printing a complete poster.</li></ul></div>
+<div class="release-entry"><p><strong>Beta 0.4.0 — <span class="update-type type-minor">Minor Update</span></strong></p><ul class="release-bullets"><li>Improves the poster preview and tile layout workflow.</li><li>Makes it easier to see how artwork is divided across sheets before export.</li></ul></div>
+<div class="release-entry"><p><strong>Beta 0.3.0 — <span class="update-type type-minor">Minor Update</span></strong></p><ul class="release-bullets"><li>Expands paper-size and orientation handling.</li><li>Refines row-and-column controls for multi-page poster layouts.</li></ul></div>
+<div class="release-entry"><p><strong>Beta 0.2.0 — <span class="update-type type-minor">Minor Update</span></strong></p><ul class="release-bullets"><li>Develops the initial image-to-poster workflow with configurable tile grids.</li><li>Adds early print/export functionality.</li></ul></div>
+<div class="release-entry"><p><strong>Beta 0.1.0 — <span class="update-type type-initial">Initial Release</span></strong></p><ul class="release-bullets"><li>Introduces the first working concept of AutoTarp: upload an image and split it across ordinary paper sheets to create a larger assembled poster.</li></ul></div>
 <p class="changelog-note">Version notes summarize the project’s development milestones. Printing results may vary by browser, printer driver, and printer settings; test a page before printing a full poster.</p>
 </section></div>
 <div class="modal-backdrop" id="aboutModal" role="dialog" aria-modal="true" aria-labelledby="aboutTitle"><section class="modal"><button class="modal-close" data-close aria-label="Close About">×</button><h2 id="aboutTitle">About AutoTarp</h2><p><strong>AutoTarp</strong> means <strong>Automated Tarpapel Maker</strong>, a tool designed to turn an image into a large poster spread across ordinary sheets of paper.</p><p><strong>Tagline:</strong> Printing Art Simplified</p><h3>App Developers / Concept</h3>
@@ -233,7 +374,7 @@ body{background:#eef3ff}
 <p><strong>Public web app:</strong> Hosted on GitHub Pages; poster processing is performed locally in your browser.</p></section></div>
 
 <div class="modal-backdrop" id="assemblyModal" role="dialog" aria-modal="true" aria-labelledby="assemblyTitle"><section class="modal"><button class="modal-close" data-close aria-label="Close assembly guide">×</button><h2 id="assemblyTitle">Poster assembly guide</h2><p>Arrange the sheets left to right, then move top to bottom. Each sheet is numbered in reading order.</p><div id="assemblyMap" class="assembly-map"></div><p>Use the crop marks as cutting guides. Match the artwork at each shared edge; use the configured overlap to align sheets before taping.</p><button type="button" class="browse-btn" id="downloadGuideBtn">Download assembly guide</button></section></div>
-<div class="modal-backdrop" id="shortcutsModal" role="dialog" aria-modal="true" aria-labelledby="shortcutsTitle"><section class="modal"><button class="modal-close" data-close aria-label="Close shortcuts">×</button><h2 id="shortcutsTitle">Keyboard shortcuts</h2><p><strong>Ctrl/⌘ + Z</strong> Undo settings</p><p><strong>Ctrl/⌘ + Y</strong> Redo settings</p><p><strong>Ctrl/⌘ + S</strong> Save current settings as a preset</p><p><strong>Ctrl/⌘ + P</strong> Print in browser</p><p><strong>?</strong> Show this shortcut guide</p><p>Shortcuts are disabled while typing in text fields.</p></section></div>
+<div class="modal-backdrop" id="shortcutsModal" role="dialog" aria-modal="true" aria-labelledby="shortcutsTitle"><section class="modal"><button class="modal-close" data-close aria-label="Close shortcuts">×</button><h2 id="shortcutsTitle">Printing instructions & keyboard shortcuts</h2><p><strong>Print workflow:</strong> Choose your photo, set paper size and orientation, set poster rows and columns, review both previews, then use <em>Proceed to Print</em> to export a tiled PDF or print from the browser. For reliable sizing, print at Actual Size / 100% and disable “Fit to page” when available.</p><hr><p><strong>Ctrl/⌘ + Z</strong> Undo settings</p><p><strong>Ctrl/⌘ + Y</strong> Redo settings</p><p><strong>Ctrl/⌘ + S</strong> Save current settings as a preset</p><p><strong>Ctrl/⌘ + P</strong> Print in browser</p><p><strong>?</strong> Show this shortcut guide</p><p>Shortcuts are disabled while typing in text fields.</p></section></div>
 <script>
 const $=id=>document.getElementById(id);
 const home=$('homeScreen'), workspace=$('workspaceScreen');
@@ -259,11 +400,11 @@ function getDims(){let w,h;if($('paperSize').value==='custom'&&validateCustomSiz
 function getCounts(){return {rows:Math.max(1,Math.min(12,parseInt($('rows').value)||1)),cols:Math.max(1,Math.min(12,parseInt($('cols').value)||1))}}
 function updateMeta(){const paper=$('paperSize').value==='custom'?'Custom ('+($('customWidth').value||'—')+' × '+($('customHeight').value||'—')+' '+customUnit+')':$('paperSize').selectedOptions[0].textContent.split(' (')[0];const c=getCounts();$('totalSheets').textContent=(c.rows*c.cols)+' sheet'+(c.rows*c.cols===1?'':'s');$('previewMeta').textContent=`${paper} · ${orientation[0].toUpperCase()+orientation.slice(1)} · ${c.rows} × ${c.cols} sheets`}
 function renderPreview(){updateMeta();const {w,h}=getDims(),c=getCounts();const ratio=(w*c.cols)/(h*c.rows);const maxW=520,maxH=470;let pw=maxW,ph=pw/ratio;if(ph>maxH){ph=maxH;pw=ph*ratio}if(ratio>2.5){pw=maxW;ph=pw/ratio}const poster=$('poster');poster.style.width=pw+'px';poster.style.height=ph+'px';$('gridOverlay').style.gridTemplateColumns=`repeat(${c.cols},1fr)`;$('gridOverlay').style.gridTemplateRows=`repeat(${c.rows},1fr)`;$('gridOverlay').innerHTML='';for(let i=0;i<c.rows*c.cols;i++){const cell=document.createElement('span');if((i+1)%c.cols===0)cell.style.borderRight='0';if(i>=c.cols*(c.rows-1))cell.style.borderBottom='0';$('gridOverlay').appendChild(cell)}if(currentImage){$('posterImage').src=currentImageUrl;$('emptyState').classList.add('hidden');$('posterView').classList.toggle('hidden',activeTab!=='poster');$('tilesView').classList.toggle('hidden',activeTab!=='tiles');if(activeTab==='tiles')renderTiles()}else{$('posterView').classList.add('hidden');$('tilesView').classList.add('hidden');$('emptyState').classList.remove('hidden')}}
-function renderTiles(){if(!currentImage)return;const c=getCounts(),grid=$('tileGrid'),fit=$('imageFit').value,{w:paperW,h:paperH}=getDims();grid.style.gridTemplateColumns=`repeat(${Math.min(c.cols,4)},minmax(0,1fr))`;grid.innerHTML='';for(let r=0;r<c.rows;r++){for(let col=0;col<c.cols;col++){const n=r*c.cols+col+1,card=document.createElement('div');card.className='tile-card';const thumb=document.createElement('div');thumb.className='tile-thumb';thumb.style.aspectRatio=`${paperW} / ${paperH}`;const img=document.createElement('img');img.src=currentImageUrl;img.alt=`Tile ${n}`;img.style.width=(c.cols*100)+'%';img.style.height=(c.rows*100)+'%';img.style.left=(-col*100)+'%';img.style.top=(-r*100)+'%';img.style.objectFit=fit;img.style.objectPosition='center';thumb.appendChild(img);const label=document.createElement('div');label.className='tile-label';label.textContent=`Sheet ${n} · Row ${r+1}, Col ${col+1}`;card.append(thumb,label);grid.appendChild(card)}}}
-function loadFile(file){if(!file||!file.type.startsWith('image/')){showStatus('Please choose a valid image file.',true);return}if(currentImageUrl)URL.revokeObjectURL(currentImageUrl);currentImageUrl=URL.createObjectURL(file);const img=new Image();img.onload=()=>{currentImage=img;renderPreview();showStatus(`Image loaded: ${file.name}`)};img.onerror=()=>showStatus('This image could not be opened.',true);img.src=currentImageUrl}
+function renderTiles(){if(!currentImage)return;const c=getCounts(),grid=$('tileGrid'),fit=$('imageFit').value,{w:paperW,h:paperH}=getDims();grid.style.gridTemplateColumns=`repeat(${Math.min(c.cols,4)},minmax(0,1fr))`;grid.innerHTML='';for(let r=0;r<c.rows;r++){for(let col=0;col<c.cols;col++){const n=r*c.cols+col+1,card=document.createElement('div');card.className='tile-card';const thumb=document.createElement('div');thumb.className='tile-thumb';thumb.style.aspectRatio=`${paperW} / ${paperH}`;const img=document.createElement('img');img.src=currentImageUrl;img.alt=`Tile ${n}`;img.draggable=false;img.style.width=(c.cols*100)+'%';img.style.height=(c.rows*100)+'%';img.style.left=(-col*100)+'%';img.style.top=(-r*100)+'%';img.style.objectFit=fit==='contain'?'contain':fit==='cover'?'cover':'fill';img.style.objectPosition='center';thumb.appendChild(img);const label=document.createElement('div');label.className='tile-label';label.textContent=`Sheet ${n} · Row ${r+1}, Col ${col+1}`;card.append(thumb,label);grid.appendChild(card)}}}
+function showSelectedImage(file){const card=$('selectedImageCard'),thumb=$('selectedImageThumb'),name=$('selectedImageName'),picker=document.querySelector('.image-picker-card'),zone=$('uploadZone');if(!card||!thumb)return;thumb.src=currentImageUrl;thumb.alt='Selected image: '+(file?.name||'poster image');if(name)name.textContent=file?.name||'Selected poster image';card.hidden=false;if(picker)picker.classList.add('is-hidden');if(zone)zone.classList.add('is-hidden');} function resetSelectedImage(){const card=$('selectedImageCard'),thumb=$('selectedImageThumb'),picker=document.querySelector('.image-picker-card'),zone=$('uploadZone');if(card)card.hidden=true;if(thumb)thumb.removeAttribute('src');if(picker)picker.classList.remove('is-hidden');if(zone)zone.classList.remove('is-hidden');} function loadFile(file){if(!file||!file.type.startsWith('image/')){showStatus('Please choose a valid image file.',true);return}if(currentImageUrl)URL.revokeObjectURL(currentImageUrl);currentImageUrl=URL.createObjectURL(file);const img=new Image();img.onload=()=>{currentImage=img;renderPreview();showSelectedImage(file);showStatus(`Image loaded: ${file.name}`)};img.onerror=()=>showStatus('This image could not be opened.',true);img.src=currentImageUrl}
 $('browseImage').addEventListener('click',()=>$('imageInput').click());$('imageInput').addEventListener('change',e=>{loadFile(e.target.files[0]);e.target.value=''});
 const zone=$('uploadZone');zone.addEventListener('click',()=>$('imageInput').click());zone.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();$('imageInput').click()}});zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag')});zone.addEventListener('dragleave',()=>zone.classList.remove('drag'));zone.addEventListener('drop',e=>{e.preventDefault();zone.classList.remove('drag');loadFile(e.dataTransfer.files[0])});$('imageFit').addEventListener('change',()=>{const fit=$('imageFit').value;$('posterImage').style.objectFit=fit;renderPreview();if(currentImage&&activeTab==='tiles')renderTiles();showStatus(fit==='contain'?'Contain selected: the entire image remains visible.':'Cover selected: the image fills the poster area and may be cropped.')});
-$('clearImage').addEventListener('click',()=>{if(currentImageUrl)URL.revokeObjectURL(currentImageUrl);currentImage=null;currentImageUrl=null;$('imageInput').value='';renderPreview();showStatus('Image removed.')});
+$('clearImage').addEventListener('click',()=>{if(currentImageUrl)URL.revokeObjectURL(currentImageUrl);currentImage=null;currentImageUrl=null;$('imageInput').value='';resetSelectedImage();renderPreview();showStatus('Image removed.')});
 $('updatePreview').addEventListener('click',()=>{renderPreview();showStatus('Preview updated.')});
 function showStatus(msg,error=false){const s=$('status');s.textContent=msg;s.style.background=error?'#fff1f2':'#ecfdf5';s.style.color=error?'#be123c':'#047857';s.classList.add('show')}
 
@@ -281,21 +422,29 @@ function pdfBytes(objects){
 function streamObject(dict,bytes){const head=new TextEncoder().encode(`<< ${dict} /Length ${bytes.length} >>\nstream\n`),tail=new TextEncoder().encode('\nendstream');const out=new Uint8Array(head.length+bytes.length+tail.length);out.set(head);out.set(bytes,head.length);out.set(tail,head.length+bytes.length);return out}
 function canvasJpeg(canvas){return new Promise((resolve,reject)=>canvas.toBlob(b=>{if(!b)return reject(new Error('Could not encode an image tile.'));b.arrayBuffer().then(buf=>resolve(new Uint8Array(buf))).catch(reject)},'image/jpeg',0.94))}
 function drawPosterCanvas(){
-  const {w,h}=getDims(),c=getCounts(),scale=2;
-  const width=Math.max(600,Math.min(2400,Math.round(c.cols*900))),height=Math.max(600,Math.min(2400,Math.round(c.rows*900)));
-  const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;const ctx=canvas.getContext('2d');
-  ctx.fillStyle='#ffffff';ctx.fillRect(0,0,width,height);
-  const fit=$('imageFit').value,ir=currentImage.width/currentImage.height,pr=width/height;
+  // Build the continuous poster using the actual physical aspect ratio of the selected paper.
+  // Every tile therefore has the same aspect ratio as one sheet, rather than a square crop.
+  const {w:pageWmm,h:pageHmm}=getDims(),c=getCounts();
+  const tileW=900;
+  const tileH=Math.max(1,Math.round(tileW*pageHmm/pageWmm));
+  const width=Math.max(1,Math.round(c.cols*tileW));
+  const height=Math.max(1,Math.round(c.rows*tileH));
+  const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;
+  const ctx=canvas.getContext('2d');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,width,height);
+  const fit=$('imageFit').value;
+  const iw=currentImage.naturalWidth||currentImage.width,ih=currentImage.naturalHeight||currentImage.height;
+  const ir=iw/ih,pr=width/height;
   let dw=width,dh=height,dx=0,dy=0;
   if(fit==='contain'){if(ir>pr){dh=width/ir;dy=(height-dh)/2}else{dw=height*ir;dx=(width-dw)/2}}
   else{if(ir>pr){dw=height*ir;dx=(width-dw)/2}else{dh=width/ir;dy=(height-dh)/2}}
-  ctx.drawImage(currentImage,dx,dy,dw,dh);return {canvas,width,height};
+  ctx.save();ctx.beginPath();ctx.rect(0,0,width,height);ctx.clip();ctx.drawImage(currentImage,dx,dy,dw,dh);ctx.restore();
+  return {canvas,width,height};
 }
 async function buildPdf(calibrationOnly=false){
   if(!currentImage&&!calibrationOnly)throw new Error('Choose an image before exporting a tiled PDF.');
   const c=getCounts(),{w:pageWmm,h:pageHmm}=getDims();
   const margin=Number($('printMargin').value),overlap=Number($('tileOverlap').value),scalePct=Number($('printScale').value);
-  if(![margin,overlap,scalePct].every(Number.isFinite)||margin<0||margin>25||overlap<0||overlap>20||scalePct<50||scalePct>100)throw new Error('Check print settings: margins 0–25 mm, overlap 0–20 mm, scale 50–100%.');
+  if(![margin,overlap,scalePct].every(Number.isFinite)||margin<0||margin>40||overlap<0||overlap>50||scalePct<50||scalePct>100)throw new Error('Check print settings: margins 0–40 mm, overlap 0–50 mm, scale 50–100%.');
   if(margin*2>=Math.min(pageWmm,pageHmm))throw new Error('The printer margin is too large for the selected paper size.');
   const W=pageWmm*72/25.4,H=pageHmm*72/25.4,objects=[];
   objects.push('<< /Type /Catalog /Pages 2 0 R >>');objects.push('<< /Type /Pages /Kids [PAGES] /Count COUNT >>');
@@ -315,9 +464,19 @@ async function buildPdf(calibrationOnly=false){
       const sx=Math.max(0,col*tileW-overlapPx),sy=Math.max(0,r*tileH-overlapPx);
       const ex=Math.min(width,(col+1)*tileW+overlapPx),ey=Math.min(height,(r+1)*tileH+overlapPx);
       const sw=ex-sx,sh=ey-sy;
-      canvas=document.createElement('canvas');canvas.width=1200;canvas.height=Math.max(1,Math.round(1200*(pageHmm-2*margin)/(pageWmm-2*margin)));
-      const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
-      const contentW=canvas.width*(scalePct/100),contentH=canvas.height*(scalePct/100),ox=(canvas.width-contentW)/2,oy=(canvas.height-contentH)/2;
+      // Render at the full physical paper aspect ratio, keeping the configured
+      // printer/glue margin white instead of stretching the printable canvas
+      // across the entire PDF page.
+      canvas=document.createElement('canvas');
+      canvas.width=1200;
+      canvas.height=Math.max(1,Math.round(1200*pageHmm/pageWmm));
+      const ctx=canvas.getContext('2d');
+      ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
+      const pagePxPerMm=canvas.width/pageWmm;
+      const printableWpx=(pageWmm-2*margin)*pagePxPerMm;
+      const printableHpx=(pageHmm-2*margin)*pagePxPerMm;
+      const contentW=printableWpx*(scalePct/100),contentH=printableHpx*(scalePct/100);
+      const ox=(canvas.width-contentW)/2,oy=(canvas.height-contentH)/2;
       ctx.drawImage(poster,sx,sy,sw,sh,ox,oy,contentW,contentH);
       if($('cropMarks').value==='yes'){ctx.strokeStyle='#222';ctx.lineWidth=2;const len=18;ctx.beginPath();ctx.moveTo(ox,oy-len);ctx.lineTo(ox,oy);ctx.lineTo(ox+len,oy);ctx.moveTo(ox+contentW-len,oy);ctx.lineTo(ox+contentW,oy);ctx.lineTo(ox+contentW,oy-len);ctx.moveTo(ox,oy+contentH);ctx.lineTo(ox,oy+contentH+len);ctx.moveTo(ox+contentW,oy+contentH);ctx.lineTo(ox+contentW,oy+contentH+len);ctx.stroke()}
       jpeg=await canvasJpeg(canvas);
@@ -339,7 +498,7 @@ function buildBrowserPrintPages(){
   if(!currentImage) throw new Error('Please upload an image before printing.');
   const {w:pageWmm,h:pageHmm}=getDims(), c=getCounts();
   const margin=Number($('printMargin').value), overlap=Number($('tileOverlap').value), scalePct=Number($('printScale').value);
-  if(![margin,overlap,scalePct].every(Number.isFinite)||margin<0||margin>25||overlap<0||overlap>20||scalePct<50||scalePct>100) throw new Error('Check print settings: margins 0–25 mm, overlap 0–20 mm, scale 50–100%.');
+  if(![margin,overlap,scalePct].every(Number.isFinite)||margin<0||margin>40||overlap<0||overlap>50||scalePct<50||scalePct>100) throw new Error('Check print settings: margins 0–40 mm, overlap 0–50 mm, scale 50–100%.');
   if(margin*2>=Math.min(pageWmm,pageHmm)) throw new Error('The printer margin is too large for the selected paper size.');
   const root=$('browserPrintRoot'); root.innerHTML='';
   const printableW=pageWmm-2*margin, printableH=pageHmm-2*margin;
@@ -427,7 +586,7 @@ $('printCalibration').addEventListener('click',async()=>{const b=$('printCalibra
 
 // AutoTarp v1.0 quality-of-life tools. Settings and presets remain local to this device.
 const settingsIds=['paperSize','customWidth','customHeight','rows','cols','imageFit','printMargin','tileOverlap','printScale','cropMarks','marginTop','marginRight','marginBottom','marginLeft'];
-const defaultSettings={paperSize:'210,297',customWidth:'210',customHeight:'297',rows:'3',cols:'4',imageFit:'contain',printMargin:'5',tileOverlap:'5',printScale:'100',cropMarks:'yes',marginTop:'5',marginRight:'5',marginBottom:'5',marginLeft:'5'};
+const defaultSettings={paperSize:'210,297',customWidth:'210',customHeight:'297',rows:'3',cols:'4',imageFit:'contain',printMargin:'25.4',tileOverlap:'25.4',printScale:'100',cropMarks:'yes',marginTop:'5',marginRight:'5',marginBottom:'5',marginLeft:'5'};
 let undoStack=[],redoStack=[],lastSnapshot='';
 function snapshot(){return JSON.stringify({values:Object.fromEntries(settingsIds.map(id=>[id,$(id)?.value??''])),orientation,customUnit,theme:document.body.classList.contains('theme-dark')})}
 function applySnapshot(raw){try{const x=JSON.parse(raw);Object.entries(x.values||{}).forEach(([id,v])=>{if($(id))$(id).value=v});orientation=x.orientation||'portrait';customUnit=x.customUnit||'mm';document.querySelectorAll('[data-orientation]').forEach(b=>b.classList.toggle('active',b.dataset.orientation===orientation));document.querySelectorAll('[data-unit]').forEach(b=>b.classList.toggle('active',b.dataset.unit===customUnit));document.querySelectorAll('.unitLabel').forEach(el=>el.textContent=customUnit);document.body.classList.toggle('theme-dark',!!x.theme);updateThemeButtons();syncCustomSizeVisibility();renderPreview();updateSmartSummary();}catch(e){showStatus('Could not restore these settings. Try resetting settings.',true)}}
@@ -452,17 +611,82 @@ function refreshPresets(){const select=$('savedPresets'),old=select.value;select
 $('savePresetBtn').addEventListener('click',()=>{const name=$('presetName').value.trim();if(!name){showStatus('Enter a preset name first, such as “Classroom poster”.',true);$('presetName').focus();return}const presets=getPresets();presets[name]=currentSettings();try{localStorage.setItem('autotarp-presets',JSON.stringify(presets));refreshPresets();$('savedPresets').value=name;showStatus('Preset saved on this device.')}catch(e){showStatus('Could not save the preset. Device storage may be unavailable or full.',true)}});
 $('loadPresetBtn').addEventListener('click',()=>{const name=$('savedPresets').value,p=getPresets()[name];if(!p){showStatus('Choose a saved preset to load.',true);return}recordState();applyPreset(p);showStatus('Preset loaded: '+name)});refreshPresets();
 $('resetSettingsBtn').addEventListener('click',()=>{recordState();applyPreset(defaultSettings);orientation='portrait';document.querySelectorAll('[data-orientation]').forEach(b=>b.classList.toggle('active',b.dataset.orientation==='portrait'));renderPreview();lastSnapshot=snapshot();showStatus('Settings restored to defaults. Your image was kept.');updateUndoRedo()});
-function updateSmartSummary(){const c=getCounts(),d=getDims(),total=c.rows*c.cols;const finalW=(d.w*c.cols).toFixed(0),finalH=(d.h*c.rows).toFixed(0);$('smartSummary').innerHTML=`<strong>Poster summary</strong><br>${currentImage?`Image: ${currentImage.naturalWidth||currentImage.width} × ${currentImage.naturalHeight||currentImage.height} px<br>`:'No image uploaded yet.<br>'}${total} sheet${total===1?'':'s'} · ${c.rows} rows × ${c.cols} columns<br>Approximate assembled size: ${finalW} × ${finalH} mm (${(Number(finalW)/25.4).toFixed(1)} × ${(Number(finalH)/25.4).toFixed(1)} in)<br>Paper: ${$('paperSize').selectedOptions[0]?.textContent||'Custom'} · ${orientation}`;const warning=$('qualityWarning');if(currentImage){const effectiveW=(currentImage.naturalWidth||currentImage.width)/c.cols,effectiveH=(currentImage.naturalHeight||currentImage.height)/c.rows;const low=effectiveW<500||effectiveH<500;warning.classList.toggle('hidden',!low);warning.textContent=low?'Image quality warning: this source image may look pixelated when enlarged. If possible, use a higher-resolution original before printing.':'Image resolution looks reasonable for this tile count; actual sharpness also depends on source quality and print size.';if(!low)warning.classList.add('hidden')}else warning.classList.add('hidden')}
+function updateSmartSummary(){const c=getCounts(),d=getDims(),total=c.rows*c.cols;const finalW=(d.w*c.cols).toFixed(0),finalH=(d.h*c.rows).toFixed(0);$('smartSummary').innerHTML=`<strong>Poster summary</strong><br>${currentImage?`Image: ${currentImage.naturalWidth||currentImage.width} × ${currentImage.naturalHeight||currentImage.height} px<br>`:'No image uploaded yet.<br>'}${total} sheet${total===1?'':'s'} · ${c.rows} rows × ${c.cols} columns<br>Approximate assembled size: ${finalW} × ${finalH} mm (${(Number(finalW)/25.4).toFixed(1)} × ${(Number(finalH)/25.4).toFixed(1)} in)<br>Paper: ${$('paperSize').selectedOptions[0]?.textContent||'Custom'} · ${orientation}`;const warning=$('qualityWarning');if(currentImage){const imageW=currentImage.naturalWidth||currentImage.width,imageH=currentImage.naturalHeight||currentImage.height;const assembledWmm=d.w*c.cols,assembledHmm=d.h*c.rows;const assembledWin=Math.max(assembledWmm/25.4,0.01),assembledHin=Math.max(assembledHmm/25.4,0.01);const effectiveDpiW=imageW/assembledWin,effectiveDpiH=imageH/assembledHin;const estimatedDpi=Math.min(effectiveDpiW,effectiveDpiH);const low=estimatedDpi<72;warning.classList.toggle('hidden',!low);warning.textContent=low?`Image quality warning: estimated effective resolution is about ${Math.round(estimatedDpi)} DPI at the selected poster size. It may look pixelated when enlarged. If possible, use a higher-resolution original or reduce the poster size.`:'Image resolution is above the basic 72 DPI warning threshold for this poster size. Actual sharpness also depends on source quality and print size.';if(!low)warning.classList.add('hidden')}else warning.classList.add('hidden')}
 const originalRenderPreview=renderPreview;renderPreview=function(){originalRenderPreview();updateSmartSummary()};
 $('assemblyBtn').addEventListener('click',()=>{const c=getCounts(),map=$('assemblyMap');map.style.gridTemplateColumns=`repeat(${c.cols},minmax(0,1fr))`;map.innerHTML='';for(let n=1;n<=c.rows*c.cols;n++){const cell=document.createElement('div');cell.textContent=`${n}\nR${Math.ceil(n/c.cols)} C${((n-1)%c.cols)+1}`;cell.style.whiteSpace='pre-line';map.appendChild(cell)}openModal('assemblyModal')});
 $('downloadGuideBtn').addEventListener('click',()=>{const c=getCounts(),{w,h}=getDims();let text=`AutoTarp Assembly Guide\n${c.rows} rows × ${c.cols} columns\nApproximate assembled size: ${(w*c.cols).toFixed(0)} × ${(h*c.rows).toFixed(0)} mm\n\nArrange sheets left to right, then top to bottom.\n`;for(let r=1;r<=c.rows;r++)text+=Array.from({length:c.cols},(_,i)=>`Sheet ${(r-1)*c.cols+i+1} (row ${r}, column ${i+1})`).join(' | ')+'\n';const blob=new Blob([text],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='AutoTarp-Assembly-Guide.txt';a.click();URL.revokeObjectURL(url)});
 $('shortcutsBtn').addEventListener('click',()=>openModal('shortcutsModal'));
 document.addEventListener('keydown',e=>{const typing=['INPUT','SELECT','TEXTAREA'].includes(document.activeElement?.tagName);if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();undo()}else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();redo()}else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();if(!$('presetName').value.trim())$('presetName').value='My preset';$('presetName').focus();showStatus('Name the preset, then choose Save preset.')}else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='p'){e.preventDefault();$('printInBrowser').click()}else if(!typing&&e.key==='?'){openModal('shortcutsModal')}});
+
+// v1.4 workflow layout: retain original controls and handlers, relocate their existing DOM nodes.
+(function(){
+ const mount=document.getElementById('smartToolsMount');
+ const qol=document.querySelector('.qol-panel');
+ if(mount && qol){
+   const label=qol.querySelector('.section-label'); if(label) label.remove();
+   // Undo/redo live in the top office-style toolbar now.
+   const undo=document.getElementById('undoBtn'), redo=document.getElementById('redoBtn');
+   const fit=document.getElementById('fitPageBtn');
+   if(undo) undo.remove(); if(redo) redo.remove();
+   if(fit){fit.textContent='Fit to page';fit.style.width='100%';}
+   const summary=document.getElementById('smartSummary');
+   const warning=document.getElementById('qualityWarning');
+   const shortcutHelp=qol.querySelector('.shortcut-help');
+   const shortcutBtn=document.getElementById('shortcutsBtn');
+   if(summary) summary.remove(); if(warning) warning.remove();
+   if(shortcutHelp) shortcutHelp.remove(); if(shortcutBtn) shortcutBtn.remove();
+   mount.appendChild(qol);
+   const printCal=document.getElementById('printCalibration');
+   if(printCal){printCal.style.display=''; const row=document.createElement('div');row.className='action-row';row.appendChild(printCal);mount.appendChild(row);}
+   const previewArea=document.querySelector('.preview-area');
+   const summaryWrap=document.createElement('div');summaryWrap.className='poster-summary-wrap';summaryWrap.id='posterSummaryWrap';
+   if(summary) summaryWrap.appendChild(summary); if(warning) summaryWrap.appendChild(warning);
+   previewArea.appendChild(summaryWrap);
+ }
+ const menu=document.getElementById('printMenu'), proceed=document.getElementById('proceedPrintBtn');
+ if(proceed && menu){proceed.addEventListener('click',e=>{e.stopPropagation();menu.classList.toggle('open')});document.addEventListener('click',e=>{if(!menu.contains(e.target)&&e.target!==proceed)menu.classList.remove('open')});}
+ document.getElementById('menuExportPdf')?.addEventListener('click',()=>{document.getElementById('printMenu').classList.remove('open');document.getElementById('exportPdf').click()});
+ document.getElementById('menuPrintBrowser')?.addEventListener('click',()=>{document.getElementById('printMenu').classList.remove('open');document.getElementById('printInBrowser').click()});
+ document.getElementById('topUndoBtn')?.addEventListener('click',()=>undo());
+ document.getElementById('topRedoBtn')?.addEventListener('click',()=>redo());
+ document.getElementById('topHelpBtn')?.addEventListener('click',()=>openModal('shortcutsModal'));
+ 
+ const summaryBtn=document.getElementById('summaryPopoverBtn'),summaryPop=document.getElementById('summaryPopover');
+ const warningBtn=document.getElementById('clarityWarningBtn'),warningPop=document.getElementById('clarityPopover');
+ const summarySource=document.getElementById('smartSummary'),warningSource=document.getElementById('qualityWarning');
+ const summaryContent=document.getElementById('summaryPopoverContent'),warningContent=document.getElementById('clarityPopoverContent');
+ function syncSummaryPopover(){
+   if(summarySource&&summaryContent){
+     const clone=summarySource.cloneNode(true);clone.removeAttribute('id');clone.querySelectorAll('h2,h3,h4,strong').forEach(el=>{if(/poster summary/i.test(el.textContent.trim()))el.remove()});summaryContent.replaceChildren(...clone.childNodes);
+   }
+   const text=warningSource?.innerText?.trim()||'';
+   const hasSelectedImage=!!currentImage;
+   const triggered=hasSelectedImage && !!text && !/no warning|good quality|looks good|no issue/i.test(text) && (warningSource.offsetHeight>0 || /warning|pixelat|resolution|low quality|higher-resolution/i.test(text));
+   if(warningBtn){warningBtn.classList.toggle('visible',triggered);warningBtn.setAttribute('aria-hidden',String(!triggered));}
+   if(!hasSelectedImage || !triggered){warningPop?.classList.remove('open');}
+   if(triggered&&warningContent){warningContent.textContent=text;}
+   else if(warningContent){warningContent.textContent='No image clarity warning is currently active.';}
+ }
+ summaryBtn?.addEventListener('click',e=>{e.stopPropagation();syncSummaryPopover();summaryPop?.classList.toggle('open');warningPop?.classList.remove('open')});
+ warningBtn?.addEventListener('click',e=>{e.stopPropagation();syncSummaryPopover();warningPop?.classList.toggle('open');summaryPop?.classList.remove('open')});
+ document.querySelectorAll('[data-close-popover]').forEach(b=>b.addEventListener('click',()=>document.getElementById(b.dataset.closePopover)?.classList.remove('open')));
+ document.addEventListener('click',e=>{if(!e.target.closest('.summary-popover-anchor')){summaryPop?.classList.remove('open');warningPop?.classList.remove('open')}});
+ const summaryObserver=new MutationObserver(syncSummaryPopover);
+ if(summarySource)summaryObserver.observe(summarySource,{childList:true,subtree:true,characterData:true,attributes:true});
+ if(warningSource)summaryObserver.observe(warningSource,{childList:true,subtree:true,characterData:true,attributes:true});
+ setTimeout(syncSummaryPopover,250);
+ 
+const syncTop=()=>{const u=document.getElementById('topUndoBtn'),r=document.getElementById('topRedoBtn');if(u)u.disabled=!undoStack.length;if(r)r.disabled=!redoStack.length;};
+ const oldUpdate=updateUndoRedo; updateUndoRedo=function(){oldUpdate();syncTop()};
+ const oldSummary=updateSmartSummary; updateSmartSummary=function(){oldSummary();const a=document.getElementById('totalSheets'),b=document.getElementById('previewTotalSheets');if(a&&b)b.textContent=(a.textContent.match(/\d+/)||['0'])[0];syncTop()};
+ document.getElementById('startLayout')?.addEventListener('click',()=>setTimeout(()=>{document.querySelectorAll('.workflow-steps details').forEach((d,i)=>d.open=i===0)},0));
+})();
+
 // More actionable error messages for common image/export failures.
 const oldLoadFile=loadFile;loadFile=function(file){if(!file){showStatus('No image selected. Choose an image to continue.',true);return}if(file.size>40*1024*1024){showStatus('This image is over 40 MB. Choose a smaller image to avoid browser memory problems.',true);return}oldLoadFile(file)};
 lastSnapshot=snapshot();updateUndoRedo();updateSmartSummary();
 
-// AutoTarp v1.2 update flow: prompt before activating a newly installed worker.
+// AutoTarp v1.4 update flow: prompt before activating a newly installed worker.
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   let waitingWorker = null;
   let reloadingForUpdate = false;
@@ -500,5 +724,5 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   });
 }
 </script>
-<div class="update-banner" id="updateBanner" role="status" aria-live="polite"><div class="update-banner-text"><strong>AutoTarp v1.2 is ready</strong>A new version has been downloaded. Reload to update when convenient.</div><button id="applyUpdate" type="button">Reload to update</button><button class="update-dismiss" id="dismissUpdate" type="button" aria-label="Remind me later">×</button></div>
+<div class="update-banner" id="updateBanner" role="status" aria-live="polite"><div class="update-banner-text"><strong>AutoTarp v1.4 is ready</strong>A new version has been downloaded. Reload to update when convenient.</div><button id="applyUpdate" type="button">Reload to update</button><button class="update-dismiss" id="dismissUpdate" type="button" aria-label="Remind me later">×</button></div>
 </body></html>
