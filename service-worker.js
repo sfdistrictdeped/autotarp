@@ -1,4 +1,4 @@
-const CACHE_NAME = "autotarp-shell-v1-5-0";
+const CACHE_NAME = "autotarp-shell-v1-5-1";
 const CACHE_PREFIX = "autotarp-shell-";
 const APP_SHELL = [
   "./",
@@ -9,8 +9,6 @@ const APP_SHELL = [
   "./assets/icon-192.png",
   "./assets/icon-512.png",
   "./assets/san-fernando-district-logo.png",
-  "./assets/sfd-oneportal.png",
-  "./assets/sfd-onedirectory.png",
   "./assets/autotarp-discover.png",
   "./assets/autobook.png"
 ];
