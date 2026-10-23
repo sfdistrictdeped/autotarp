@@ -1,4 +1,4 @@
-const CACHE_NAME = "autotarp-shell-v1-4-9";
+const CACHE_NAME = "autotarp-shell-v1-5-0";
 const CACHE_PREFIX = "autotarp-shell-";
 const APP_SHELL = [
   "./",
@@ -8,7 +8,11 @@ const APP_SHELL = [
   "./assets/autotarp-logo.png",
   "./assets/icon-192.png",
   "./assets/icon-512.png",
-  "./assets/san-fernando-district-logo.png"
+  "./assets/san-fernando-district-logo.png",
+  "./assets/sfd-oneportal.png",
+  "./assets/sfd-onedirectory.png",
+  "./assets/autotarp-discover.png",
+  "./assets/autobook.png"
 ];
 
 self.addEventListener("install", event => {

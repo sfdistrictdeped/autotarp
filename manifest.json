@@ -1,8 +1,8 @@
 {
   "id": "/san-fernando-district-directory/autotarp/",
-  "name": "AutoTarp — Automated Tarpapel Maker",
+  "name": "AutoTarp \u2014 Automated Tarpapel Maker",
   "short_name": "AutoTarp",
-  "description": "AutoTarp v1.4 — Printing Art Simplified",
+  "description": "AutoTarp v1.5 \u2014 Printing Art Simplified",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -23,5 +23,5 @@
       "purpose": "any"
     }
   ],
-  "version": "1.4"
+  "version": "1.5"
 }

@@ -1,4 +1,4 @@
-# AutoTarp v1.4
+# AutoTarp v1.5
 **Automated Tarpapel Maker — Printing Art Simplified**
 
 Public, browser-based poster tiling tool for San Fernando District and other educators.
@@ -30,7 +30,7 @@ Public, browser-based poster tiling tool for San Fernando District and other edu
 ## Release notes
 - Home screen: removed the duplicate district developer line; the complete developer attribution remains in About.
 - Theme switch is now at the upper-right of both the home screen and Poster Layout screen. The selected theme is remembered on the device.
-- Changelog now lists releases from v1.4 back to Beta 0.1.0.
+- Changelog now lists releases from v1.5 back to Beta 0.1.0.
 
 ## Credits
 ### App Developers / Concept
@@ -59,19 +59,19 @@ Public, browser-based poster tiling tool for San Fernando District and other edu
 Presets and theme preference are stored locally in the current browser. Do not clear browser site data if you want to retain them. The core PDF export and browser-print paths remain the existing tested implementation.
 
 
-## Automatic updates (v1.4)
+## Automatic updates (v1.5)
 
 When hosted over HTTPS, AutoTarp checks for a service-worker update on app load, when the app becomes visible, and when the device reconnects. If a new version is installed while an older one is active, a notification offers **Reload to update**. Users can dismiss it and continue using the current session. Browser scheduling and network availability can affect when an update is detected.
 
 
-## Version 1.4 update
+## Version 1.5 update
 - Default tile overlap is 25.4 mm (1 inch) per adjoining edge.
 - Tile overlap remains adjustable in Print & Export settings (0–50 mm).
 - Changelog entries identify update type with red Initial Release, green Minor Update, and blue Major Update labels.
 - Includes UI workflow, preview/print geometry, image selection, clarity-warning, and quality-of-life fixes.
 
 
-## v1.4.1 print-margin adjustment
+## v1.5.1 print-margin adjustment
 - Default printer margin changed to 25.4 mm (1 inch) to provide a wider white gluing border.
 - Adjustable printer margin range increased to 0–40 mm.
 - Tile overlap remains a separate adjustable setting (default 25.4 mm); it controls repeated image area, not the white border.
