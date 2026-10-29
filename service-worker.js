@@ -1,4 +1,4 @@
-const CACHE_NAME = "autotarp-shell-v1-5-1";
+const CACHE_NAME = "autotarp-shell-v1-6-10";
 const CACHE_PREFIX = "autotarp-shell-";
 const APP_SHELL = [
   "./",
